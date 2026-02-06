@@ -1,110 +1,309 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- Webpage Title (will show on tab) -->
-    <title>Professional Portfolio</title>
-    <style>
-        /* Basic styling for the page */
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            line-height: 1.6;
-        }
-        header {
-            background: #333;
-            color: #fff;
-            padding: 1rem 0;
-            text-align: center;
-        }
-        nav {
-            margin: 1rem 0;
-        }
-        nav a {
-            color: #fff;
-            text-decoration: none;
-            margin: 0 1rem;
-        }
-        section {
-            padding: 2rem;
-            border-bottom: 1px solid #ddd;
-        }
-        footer {
-            text-align: center;
-            padding: 1rem;
-            background: #333;
-            color: #fff;
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>My Portfolio</title>
+
+<!-- ================= STYLES ================= -->
+<style>
+:root {
+    --bg: #0f2027;
+    --bg2: #203a43;
+    --accent: #00eaff;
+    --text: #ffffff;
+    --card: rgba(255,255,255,0.08);
+}
+
+.light {
+    --bg: #f5f7fa;
+    --bg2: #c3cfe2;
+    --accent: #0077ff;
+    --text: #222;
+    --card: rgba(0,0,0,0.08);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: 'Segoe UI', sans-serif;
+    background: linear-gradient(120deg, var(--bg), var(--bg2));
+    color: var(--text);
+    overflow-x: hidden;
+}
+
+/* PARTICLE CANVAS */
+canvas {
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+}
+
+/* HEADER / HERO */
+header {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 2rem;
+}
+
+h1 {
+    font-size: 3.2rem;
+}
+
+.typing {
+    color: var(--accent);
+}
+
+nav {
+    margin-top: 2rem;
+}
+
+nav a {
+    margin: 0 1rem;
+    text-decoration: none;
+    color: var(--accent);
+    font-weight: bold;
+}
+
+/* TOGGLE */
+.toggle {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: var(--card);
+    border: none;
+    color: var(--text);
+    padding: 10px 15px;
+    border-radius: 20px;
+    cursor: pointer;
+}
+
+/* SECTIONS */
+section {
+    padding: 5rem 10%;
+}
+
+h2 {
+    font-size: 2.3rem;
+    margin-bottom: 2rem;
+    color: var(--accent);
+}
+
+/* CARD */
+.card {
+    background: var(--card);
+    padding: 2rem;
+    border-radius: 15px;
+    margin-bottom: 2rem;
+    backdrop-filter: blur(10px);
+    transform: translateY(40px);
+    opacity: 0;
+    transition: all 0.8s ease;
+}
+
+.card.show {
+    transform: translateY(0);
+    opacity: 1;
+}
+
+.card:hover {
+    transform: translateY(-10px);
+}
+
+/* PROJECT GRID */
+.projects {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+}
+
+.projects button {
+    background: none;
+    border: none;
+    color: var(--accent);
+    cursor: pointer;
+    font-size: 1rem;
+}
+
+/* MODAL */
+.modal {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.8);
+    display: none;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-content {
+    background: var(--bg2);
+    padding: 2rem;
+    border-radius: 15px;
+    max-width: 400px;
+}
+
+.modal.show {
+    display: flex;
+}
+
+/* FOOTER */
+footer {
+    text-align: center;
+    padding: 2rem;
+    opacity: 0.8;
+}
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+    h1 { font-size: 2.4rem; }
+    section { padding: 4rem 6%; }
+}
+</style>
 </head>
+
 <body>
-    <!-- Header Section -->
-    <header>
-        <h1>Welcome to My Portfolio</h1>
-        <nav>
-            <a href="#about">About Me</a>
-            <a href="#projects">Projects</a>
-            <a href="#credentials">Credentials</a>
-            <a href="#contact">Contact Info</a>
-        </nav>
-    </header>
 
-    <!-- About Me Section -->
-    <section id="about">
-        <h2>About Me</h2>
-        <p>
-            <!-- Add a brief introduction about yourself here -->
-            Hello! My name is [Your Name]. I am passionate about [your interests or profession]. 
-            Welcome to my portfolio website!
-        </p>
-    </section>
+<canvas id="particles"></canvas>
 
-    <!-- Projects Section -->
-    <section id="projects">
-        <h2>Projects</h2>
-        <p>
-            <!-- Add a list or description of your projects here -->
-            Here are some of the projects I have worked on:
-        </p>
-        <ul>
-            <li>Project 1: [Brief description] <a href="[link to project repository]" target="_blank">[Project repository]</a></li>
-            <li>Project 2: [Brief description] <a href="[link to project repository]" target="_blank">[Project repository]</a></li>
-        </ul>
-    </section>
+<button class="toggle" onclick="toggleTheme()">🌙</button>
 
-    <!-- Credentials Section -->
-    <section id="credentials">
-        <h2>Credentials</h2>
-        <p>
-            <!-- Add your credentials, certifications, or achievements here -->
-            I have earned the following certifications and achievements:
-        </p>
-        <ul>
-            <li>Certification 1: [Details]</li>
-            <li>Certification 2: [Details]</li>
-            <li>Certification 3: [Details]</li>
-            <!-- Add images of your certification digital badges -->
-        </ul>
-    </section>
+<header>
+    <h1>Hi, I’m <span class="typing"></span></h1>
+    <p>I build modern, animated, and meaningful digital experiences.</p>
+    <nav>
+        <a href="#about">About</a>
+        <a href="#projects">Projects</a>
+        <a href="#contact">Contact</a>
+    </nav>
+</header>
 
-    <!-- Contact Info Section -->
-    <section id="contact">
-        <h2>Contact Info</h2>
-        <p>
-            <!-- Add your contact information here -->
-            Feel free to reach out to me:
-        </p>
-        <ul>
-            <li>Email: [your-email@example.com]</li>
-            <li>LinkedIn: <a href="[your-linkedin-profile]" target="_blank">[Your LinkedIn]</a></li>
-        </ul>
-    </section>
+<section id="about">
+    <h2>About Me</h2>
+    <div class="card">
+        Passionate developer/designer with a love for clean UI,
+        smooth animations, and impactful solutions.
+    </div>
+</section>
 
-    <!-- Footer Section -->
-    <footer>
-        <p>&copy; 2025 [Your Name]. All rights reserved.</p>
-    </footer>
+<section id="projects">
+    <h2>Projects</h2>
+    <div class="projects">
+        <div class="card">
+            <h3>Project One</h3>
+            <p>Cool description here.</p>
+            <button onclick="openModal('Project One details go here.')">
+                View More →
+            </button>
+        </div>
+        <div class="card">
+            <h3>Project Two</h3>
+            <p>Another awesome project.</p>
+            <button onclick="openModal('Project Two details go here.')">
+                View More →
+            </button>
+        </div>
+    </div>
+</section>
+
+<section id="contact">
+    <h2>Contact</h2>
+    <div class="card">
+        Email: your-email@example.com <br>
+        LinkedIn: your-linkedin
+    </div>
+</section>
+
+<footer>
+    © 2025 Your Name
+</footer>
+
+<!-- MODAL -->
+<div class="modal" id="modal">
+    <div class="modal-content">
+        <p id="modalText"></p><br>
+        <button onclick="closeModal()">Close</button>
+    </div>
+</div>
+
+<!-- ================= SCRIPT ================= -->
+<script>
+/* TYPING EFFECT */
+const text = "Your Name";
+let i = 0;
+function type() {
+    if (i < text.length) {
+        document.querySelector(".typing").innerHTML += text.charAt(i);
+        i++;
+        setTimeout(type, 120);
+    }
+}
+type();
+
+/* SCROLL ANIMATION */
+const cards = document.querySelectorAll(".card");
+const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) entry.target.classList.add("show");
+    });
+});
+cards.forEach(card => observer.observe(card));
+
+/* THEME TOGGLE */
+function toggleTheme() {
+    document.body.classList.toggle("light");
+}
+
+/* MODAL */
+function openModal(text) {
+    document.getElementById("modalText").innerText = text;
+    document.getElementById("modal").classList.add("show");
+}
+function closeModal() {
+    document.getElementById("modal").classList.remove("show");
+}
+
+/* PARTICLES */
+const canvas = document.getElementById("particles");
+const ctx = canvas.getContext("2d");
+canvas.width = innerWidth;
+canvas.height = innerHeight;
+
+let particles = Array.from({length: 80}, () => ({
+    x: Math.random() * canvas.width,
+    y: Math.random() * canvas.height,
+    r: Math.random() * 2 + 1,
+    dx: Math.random() - 0.5,
+    dy: Math.random() - 0.5
+}));
+
+function animate() {
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    particles.forEach(p => {
+        p.x += p.dx;
+        p.y += p.dy;
+        if (p.x < 0 || p.x > canvas.width) p.dx *= -1;
+        if (p.y < 0 || p.y > canvas.height) p.dy *= -1;
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.r, 0, Math.PI*2);
+        ctx.fillStyle = "rgba(0,234,255,0.6)";
+        ctx.fill();
+    });
+    requestAnimationFrame(animate);
+}
+animate();
+</script>
+
 </body>
 </html>
