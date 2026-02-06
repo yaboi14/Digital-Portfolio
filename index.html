@@ -1,40 +1,56 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Your Name | Digital Portfolio</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mateo Medak | Digital Portfolio</title>
 
-<!-- ===== GOOGLE FONT ===== -->
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;900&display=swap" rel="stylesheet">
 
 <style>
+/* ================= RESET ================= */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+
 /* ================= VARIABLES ================= */
 :root {
-  --bg: #0b0f19;
-  --bg-soft: #12172a;
-  --card: rgba(255,255,255,0.06);
-  --text: #e6e6eb;
-  --muted: #a2a2b3;
+  --bg1: #020617;
+  --bg2: #020617;
   --accent: #5eead4;
-  --border: rgba(255,255,255,0.1);
+  --accent2: #38bdf8;
+  --text: #e5e7eb;
+  --muted: #9ca3af;
+  --card: rgba(255,255,255,0.07);
+  --border: rgba(255,255,255,0.12);
 }
 
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-html {
-  scroll-behavior: smooth;
-}
-
+/* ================= BODY ================= */
 body {
   font-family: 'Inter', sans-serif;
-  background: radial-gradient(circle at top, #141b34, var(--bg));
   color: var(--text);
-  line-height: 1.7;
+  background: linear-gradient(-45deg, #020617, #020617, #020617, #020617);
+  overflow-x: hidden;
+}
+
+/* ================= FLOATING GLOW ORBS ================= */
+.orb {
+  position: fixed;
+  width: 350px;
+  height: 350px;
+  background: radial-gradient(circle, var(--accent), transparent 70%);
+  filter: blur(80px);
+  opacity: 0.35;
+  animation: float 20s infinite alternate ease-in-out;
+  z-index: -1;
+}
+.orb.two {
+  background: radial-gradient(circle, var(--accent2), transparent 70%);
+  animation-duration: 25s;
+}
+
+@keyframes float {
+  from { transform: translate(-100px, -100px); }
+  to { transform: translate(200px, 300px); }
 }
 
 /* ================= NAV ================= */
@@ -46,27 +62,35 @@ nav {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  backdrop-filter: blur(12px);
-  background: rgba(11,15,25,0.7);
+  backdrop-filter: blur(14px);
+  background: rgba(2,6,23,0.75);
   border-bottom: 1px solid var(--border);
   z-index: 1000;
 }
 
 nav h1 {
-  font-size: 1.1rem;
-  font-weight: 600;
+  font-weight: 800;
+  letter-spacing: 1px;
 }
 
 nav a {
   color: var(--muted);
-  text-decoration: none;
   margin-left: 1.5rem;
-  font-size: 0.95rem;
+  text-decoration: none;
+  position: relative;
 }
 
-nav a:hover {
-  color: var(--accent);
+nav a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -6px;
+  width: 0;
+  height: 2px;
+  background: linear-gradient(90deg, var(--accent), var(--accent2));
+  transition: width 0.3s ease;
 }
+nav a:hover::after { width: 100%; }
 
 /* ================= HERO ================= */
 header {
@@ -77,136 +101,112 @@ header {
 }
 
 .hero {
-  max-width: 700px;
+  max-width: 800px;
 }
 
 .hero h2 {
-  font-size: 3rem;
-  line-height: 1.2;
+  font-size: 3.6rem;
+  font-weight: 900;
+  line-height: 1.1;
   margin-bottom: 1rem;
 }
 
 .hero span {
-  color: var(--accent);
+  background: linear-gradient(90deg, var(--accent), var(--accent2));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 .hero p {
   color: var(--muted);
-  font-size: 1.05rem;
-  margin-bottom: 2rem;
+  font-size: 1.1rem;
+  margin-bottom: 2.5rem;
 }
 
+/* CTA */
 .hero a {
-  display: inline-block;
-  padding: 0.75rem 1.4rem;
-  border-radius: 30px;
-  background: var(--accent);
-  color: #000;
-  font-weight: 600;
+  padding: 0.9rem 1.8rem;
+  border-radius: 999px;
+  background: linear-gradient(90deg, var(--accent), var(--accent2));
+  color: #020617;
+  font-weight: 700;
   text-decoration: none;
+  box-shadow: 0 0 40px rgba(94,234,212,0.4);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.hero a:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 70px rgba(94,234,212,0.8);
 }
 
 /* ================= SECTIONS ================= */
 section {
-  padding: 6rem 8%;
+  padding: 7rem 8%;
 }
 
-section h3 {
-  font-size: 1.8rem;
-  margin-bottom: 2rem;
+h3 {
+  font-size: 2.2rem;
+  margin-bottom: 2.5rem;
 }
 
 /* ================= CARDS ================= */
 .card {
   background: var(--card);
   border: 1px solid var(--border);
-  border-radius: 18px;
-  padding: 2rem;
+  border-radius: 22px;
+  padding: 2.5rem;
+  backdrop-filter: blur(14px);
   transition: transform 0.4s ease, box-shadow 0.4s ease;
+  transform-style: preserve-3d;
 }
 
 .card:hover {
-  transform: translateY(-6px);
-  box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+  transform: translateY(-10px) rotateX(4deg) rotateY(-4deg);
+  box-shadow: 0 40px 80px rgba(0,0,0,0.6);
 }
 
-/* ================= ABOUT ================= */
-.about {
-  max-width: 900px;
-}
-
-/* ================= SKILLS ================= */
-.skills {
+/* ================= GRIDS ================= */
+.skills, .projects {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-  gap: 1.5rem;
-}
-
-.skill {
-  text-align: center;
-  font-weight: 600;
-}
-
-/* ================= PROJECTS ================= */
-.projects {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
   gap: 2rem;
 }
 
-.projects a {
-  color: var(--accent);
-  text-decoration: none;
-  font-weight: 500;
+/* ================= REVEAL ================= */
+.reveal {
+  opacity: 0;
+  transform: translateY(60px) scale(0.95);
+  transition: 1s cubic-bezier(.2,.8,.2,1);
 }
 
-/* ================= CONTACT ================= */
-.contact p {
-  margin-bottom: 1rem;
+.reveal.show {
+  opacity: 1;
+  transform: translateY(0) scale(1);
 }
 
 /* ================= FOOTER ================= */
 footer {
   text-align: center;
-  padding: 2rem;
+  padding: 3rem;
   color: var(--muted);
   border-top: 1px solid var(--border);
 }
 
-/* ================= ANIMATION ================= */
-.reveal {
-  opacity: 0;
-  transform: translateY(40px);
-  transition: 0.8s ease;
-}
-
-.reveal.show {
-  opacity: 1;
-  transform: translateY(0);
-}
-
 /* ================= RESPONSIVE ================= */
 @media (max-width: 768px) {
-  header h2 {
-    font-size: 2.2rem;
-  }
-
-  nav {
-    padding: 1rem 5%;
-  }
-
-  section {
-    padding: 5rem 5%;
-  }
+  .hero h2 { font-size: 2.5rem; }
+  section { padding: 6rem 5%; }
 }
 </style>
 </head>
 
 <body>
 
-<!-- ================= NAV ================= -->
+<div class="orb"></div>
+<div class="orb two"></div>
+
 <nav>
-  <h1>Your Name</h1>
+  <h1>Mateo Medak</h1>
   <div>
     <a href="#about">About</a>
     <a href="#skills">Skills</a>
@@ -215,88 +215,76 @@ footer {
   </div>
 </nav>
 
-<!-- ================= HERO ================= -->
 <header>
   <div class="hero reveal">
-    <h2>Building <span>clean</span> and <span>modern</span><br>digital experiences.</h2>
+    <h2>
+      Hi, I’m <span>Mateo</span>.<br>
+      A hardworking student<br>
+      building a <span>powerful future</span>.
+    </h2>
     <p>
-      I’m a motivated developer focused on creating responsive,
-      user-friendly websites and applications with clean code
-      and modern design.
+      This portfolio represents my dedication, growth, and passion
+      for learning — built for college today and professional work tomorrow.
     </p>
-    <a href="#projects">View My Work</a>
+    <a href="#projects">Explore My Work</a>
   </div>
 </header>
 
-<!-- ================= ABOUT ================= -->
 <section id="about">
   <h3 class="reveal">About Me</h3>
-  <div class="card about reveal">
-    I’m a student developer passionate about web development and
-    technology. I enjoy turning ideas into functional, visually
-    appealing projects while continuously learning new tools and
-    best practices.
+  <div class="card reveal">
+    I am a highly motivated student who values discipline, consistency,
+    and improvement. I enjoy learning technology, pushing my limits,
+    and creating projects that reflect both effort and creativity.
   </div>
 </section>
 
-<!-- ================= SKILLS ================= -->
 <section id="skills">
   <h3 class="reveal">Skills</h3>
   <div class="skills">
-    <div class="card skill reveal">HTML & CSS</div>
-    <div class="card skill reveal">JavaScript</div>
-    <div class="card skill reveal">Git & GitHub</div>
-    <div class="card skill reveal">Responsive Design</div>
-    <div class="card skill reveal">UI / UX Basics</div>
+    <div class="card reveal">HTML & CSS</div>
+    <div class="card reveal">JavaScript Basics</div>
+    <div class="card reveal">Git & GitHub</div>
+    <div class="card reveal">Problem Solving</div>
+    <div class="card reveal">Strong Work Ethic</div>
   </div>
 </section>
 
-<!-- ================= PROJECTS ================= -->
 <section id="projects">
   <h3 class="reveal">Projects</h3>
   <div class="projects">
     <div class="card reveal">
       <h4>Digital Portfolio</h4>
-      <p>A modern personal portfolio showcasing my skills and projects.</p>
-      <a href="https://github.com/yaboi14/Digital-Portfolio" target="_blank">
-        View on GitHub →
-      </a>
+      <p>A cinematic, animated portfolio showcasing my growth.</p>
+      <a href="https://github.com/yaboi14/Digital-Portfolio" target="_blank">View on GitHub →</a>
     </div>
-
     <div class="card reveal">
-      <h4>Future Project</h4>
-      <p>Placeholder for upcoming work and experiments.</p>
-      <a href="#">Coming soon →</a>
+      <h4>More Coming</h4>
+      <p>I am constantly building and improving new projects.</p>
     </div>
   </div>
 </section>
 
-<!-- ================= CONTACT ================= -->
 <section id="contact">
   <h3 class="reveal">Contact</h3>
-  <div class="card contact reveal">
-    <p>Email: your-email@example.com</p>
-    <p>GitHub: <a href="https://github.com/yaboi14" target="_blank">github.com/yaboi14</a></p>
+  <div class="card reveal">
+    <p>Email: mateotmedak08@gmail.com</p>
+    <p>GitHub: github.com/yaboi14</p>
   </div>
 </section>
 
 <footer>
-  © 2025 Your Name. All rights reserved.
+  © 2025 Mateo Medak. All rights reserved.
 </footer>
 
-<!-- ================= SCRIPT ================= -->
 <script>
-const reveals = document.querySelectorAll(".reveal");
-
 const observer = new IntersectionObserver(entries => {
-  entries.forEach(entry => {
-    if (entry.isIntersecting) {
-      entry.target.classList.add("show");
-    }
+  entries.forEach(e => {
+    if (e.isIntersecting) e.target.classList.add("show");
   });
 }, { threshold: 0.15 });
 
-reveals.forEach(r => observer.observe(r));
+document.querySelectorAll(".reveal").forEach(el => observer.observe(el));
 </script>
 
 </body>
