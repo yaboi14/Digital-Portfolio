@@ -8,91 +8,110 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;900&display=swap" rel="stylesheet">
 
 <style>
-/* ================= RESET ================= */
+/* ========== RESET ========== */
 * { margin: 0; padding: 0; box-sizing: border-box; }
 html { scroll-behavior: smooth; }
 
-/* ================= VARIABLES ================= */
+/* ========== VARIABLES ========== */
 :root {
-  --bg1: #020617;
-  --bg2: #020617;
-  --accent: #5eead4;
+  --accent1: #5eead4;
   --accent2: #38bdf8;
+  --accent3: #a78bfa;
+  --bg: #020617;
   --text: #e5e7eb;
   --muted: #9ca3af;
-  --card: rgba(255,255,255,0.07);
-  --border: rgba(255,255,255,0.12);
+  --card: rgba(255,255,255,0.08);
+  --border: rgba(255,255,255,0.15);
 }
 
-/* ================= BODY ================= */
+/* ========== BODY ========== */
 body {
   font-family: 'Inter', sans-serif;
+  background: var(--bg);
   color: var(--text);
-  background: linear-gradient(-45deg, #020617, #020617, #020617, #020617);
   overflow-x: hidden;
 }
 
-/* ================= FLOATING GLOW ORBS ================= */
-.orb {
+/* ========== ANIMATED GRADIENT WAVES ========== */
+.wave {
   position: fixed;
-  width: 350px;
-  height: 350px;
-  background: radial-gradient(circle, var(--accent), transparent 70%);
+  inset: -50%;
+  background: radial-gradient(circle at 30% 30%, var(--accent1), transparent 40%),
+              radial-gradient(circle at 70% 40%, var(--accent2), transparent 45%),
+              radial-gradient(circle at 50% 70%, var(--accent3), transparent 50%);
+  animation: swirl 40s linear infinite;
+  opacity: 0.15;
+  z-index: -4;
+}
+
+@keyframes swirl {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* ========== STARFIELD ========== */
+canvas {
+  position: fixed;
+  inset: 0;
+  z-index: -3;
+}
+
+/* ========== NOISE TEXTURE ========== */
+.noise {
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.05'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: -2;
+}
+
+/* ========== MOUSE GLOW ========== */
+.glow {
+  position: fixed;
+  width: 300px;
+  height: 300px;
+  background: radial-gradient(circle, var(--accent1), transparent 70%);
   filter: blur(80px);
-  opacity: 0.35;
-  animation: float 20s infinite alternate ease-in-out;
+  opacity: 0.25;
+  pointer-events: none;
   z-index: -1;
-}
-.orb.two {
-  background: radial-gradient(circle, var(--accent2), transparent 70%);
-  animation-duration: 25s;
+  transition: transform 0.05s linear;
 }
 
-@keyframes float {
-  from { transform: translate(-100px, -100px); }
-  to { transform: translate(200px, 300px); }
-}
-
-/* ================= NAV ================= */
+/* ========== NAV ========== */
 nav {
   position: fixed;
-  top: 0;
   width: 100%;
+  top: 0;
   padding: 1rem 8%;
   display: flex;
   justify-content: space-between;
-  align-items: center;
-  backdrop-filter: blur(14px);
-  background: rgba(2,6,23,0.75);
+  backdrop-filter: blur(16px);
+  background: rgba(2,6,23,0.7);
   border-bottom: 1px solid var(--border);
   z-index: 1000;
 }
 
-nav h1 {
-  font-weight: 800;
-  letter-spacing: 1px;
-}
-
+nav h1 { font-weight: 800; }
 nav a {
   color: var(--muted);
   margin-left: 1.5rem;
   text-decoration: none;
   position: relative;
 }
-
 nav a::after {
   content: "";
   position: absolute;
-  left: 0;
-  bottom: -6px;
   width: 0;
   height: 2px;
-  background: linear-gradient(90deg, var(--accent), var(--accent2));
-  transition: width 0.3s ease;
+  left: 0;
+  bottom: -6px;
+  background: linear-gradient(90deg, var(--accent1), var(--accent2));
+  transition: 0.3s;
 }
 nav a:hover::after { width: 100%; }
 
-/* ================= HERO ================= */
+/* ========== HERO ========== */
 header {
   min-height: 100vh;
   padding: 0 8%;
@@ -100,91 +119,72 @@ header {
   align-items: center;
 }
 
-.hero {
-  max-width: 800px;
-}
-
 .hero h2 {
-  font-size: 3.6rem;
+  font-size: 3.8rem;
   font-weight: 900;
   line-height: 1.1;
-  margin-bottom: 1rem;
 }
 
 .hero span {
-  background: linear-gradient(90deg, var(--accent), var(--accent2));
+  background: linear-gradient(90deg, var(--accent1), var(--accent2), var(--accent3));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
 .hero p {
+  margin: 1.5rem 0 2.5rem;
   color: var(--muted);
   font-size: 1.1rem;
-  margin-bottom: 2.5rem;
 }
 
-/* CTA */
+/* ========== BUTTON ========== */
 .hero a {
-  padding: 0.9rem 1.8rem;
+  padding: 0.9rem 2rem;
   border-radius: 999px;
-  background: linear-gradient(90deg, var(--accent), var(--accent2));
+  background: linear-gradient(90deg, var(--accent1), var(--accent2));
   color: #020617;
   font-weight: 700;
   text-decoration: none;
-  box-shadow: 0 0 40px rgba(94,234,212,0.4);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-.hero a:hover {
-  transform: scale(1.05);
-  box-shadow: 0 0 70px rgba(94,234,212,0.8);
+  box-shadow: 0 0 60px rgba(94,234,212,0.6);
 }
 
-/* ================= SECTIONS ================= */
+/* ========== SECTIONS ========== */
 section {
   padding: 7rem 8%;
 }
 
-h3 {
-  font-size: 2.2rem;
-  margin-bottom: 2.5rem;
-}
-
-/* ================= CARDS ================= */
 .card {
   background: var(--card);
   border: 1px solid var(--border);
-  border-radius: 22px;
+  border-radius: 24px;
   padding: 2.5rem;
-  backdrop-filter: blur(14px);
+  backdrop-filter: blur(16px);
   transition: transform 0.4s ease, box-shadow 0.4s ease;
-  transform-style: preserve-3d;
 }
-
 .card:hover {
-  transform: translateY(-10px) rotateX(4deg) rotateY(-4deg);
-  box-shadow: 0 40px 80px rgba(0,0,0,0.6);
+  transform: translateY(-10px) scale(1.02);
+  box-shadow: 0 40px 90px rgba(0,0,0,0.6);
 }
 
-/* ================= GRIDS ================= */
+/* ========== GRIDS ========== */
 .skills, .projects {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
   gap: 2rem;
 }
 
-/* ================= REVEAL ================= */
+/* ========== REVEAL ========== */
 .reveal {
   opacity: 0;
-  transform: translateY(60px) scale(0.95);
+  transform: translateY(60px);
   transition: 1s cubic-bezier(.2,.8,.2,1);
 }
-
 .reveal.show {
   opacity: 1;
-  transform: translateY(0) scale(1);
+  transform: translateY(0);
 }
 
-/* ================= FOOTER ================= */
+/* ========== FOOTER ========== */
 footer {
   text-align: center;
   padding: 3rem;
@@ -192,9 +192,9 @@ footer {
   border-top: 1px solid var(--border);
 }
 
-/* ================= RESPONSIVE ================= */
+/* ========== RESPONSIVE ========== */
 @media (max-width: 768px) {
-  .hero h2 { font-size: 2.5rem; }
+  .hero h2 { font-size: 2.6rem; }
   section { padding: 6rem 5%; }
 }
 </style>
@@ -202,8 +202,10 @@ footer {
 
 <body>
 
-<div class="orb"></div>
-<div class="orb two"></div>
+<div class="wave"></div>
+<div class="noise"></div>
+<div class="glow" id="glow"></div>
+<canvas id="stars"></canvas>
 
 <nav>
   <h1>Mateo Medak</h1>
@@ -220,68 +222,76 @@ footer {
     <h2>
       Hi, I’m <span>Mateo</span>.<br>
       A hardworking student<br>
-      building a <span>powerful future</span>.
+      building a <span>future</span>.
     </h2>
-    <p>
-      This portfolio represents my dedication, growth, and passion
-      for learning — built for college today and professional work tomorrow.
-    </p>
-    <a href="#projects">Explore My Work</a>
+    <p>Built for college today — designed for the world tomorrow.</p>
+    <a href="#projects">Explore</a>
   </div>
 </header>
 
 <section id="about">
-  <h3 class="reveal">About Me</h3>
-  <div class="card reveal">
-    I am a highly motivated student who values discipline, consistency,
-    and improvement. I enjoy learning technology, pushing my limits,
-    and creating projects that reflect both effort and creativity.
-  </div>
+  <div class="card reveal">I’m a motivated student who loves learning, experimenting, and improving every day.</div>
 </section>
 
 <section id="skills">
-  <h3 class="reveal">Skills</h3>
   <div class="skills">
     <div class="card reveal">HTML & CSS</div>
-    <div class="card reveal">JavaScript Basics</div>
+    <div class="card reveal">JavaScript</div>
     <div class="card reveal">Git & GitHub</div>
     <div class="card reveal">Problem Solving</div>
-    <div class="card reveal">Strong Work Ethic</div>
   </div>
 </section>
 
 <section id="projects">
-  <h3 class="reveal">Projects</h3>
   <div class="projects">
     <div class="card reveal">
-      <h4>Digital Portfolio</h4>
-      <p>A cinematic, animated portfolio showcasing my growth.</p>
-      <a href="https://github.com/yaboi14/Digital-Portfolio" target="_blank">View on GitHub →</a>
+      <h3>Digital Portfolio</h3>
+      <p>Animated, modern portfolio website.</p>
     </div>
-    <div class="card reveal">
-      <h4>More Coming</h4>
-      <p>I am constantly building and improving new projects.</p>
-    </div>
-  </div>
-</section>
-
-<section id="contact">
-  <h3 class="reveal">Contact</h3>
-  <div class="card reveal">
-    <p>Email: mateotmedak08@gmail.com</p>
-    <p>GitHub: github.com/yaboi14</p>
   </div>
 </section>
 
 <footer>
-  © 2025 Mateo Medak. All rights reserved.
+  © 2025 Mateo Medak
 </footer>
 
 <script>
-const observer = new IntersectionObserver(entries => {
-  entries.forEach(e => {
-    if (e.isIntersecting) e.target.classList.add("show");
+/* ===== STARFIELD ===== */
+const canvas = document.getElementById("stars");
+const ctx = canvas.getContext("2d");
+canvas.width = innerWidth;
+canvas.height = innerHeight;
+
+let stars = Array.from({ length: 120 }, () => ({
+  x: Math.random() * canvas.width,
+  y: Math.random() * canvas.height,
+  r: Math.random() * 1.5 + 0.5,
+  s: Math.random() * 0.5 + 0.2
+}));
+
+function animateStars() {
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+  stars.forEach(star => {
+    star.y += star.s;
+    if (star.y > canvas.height) star.y = 0;
+    ctx.beginPath();
+    ctx.arc(star.x, star.y, star.r, 0, Math.PI * 2);
+    ctx.fillStyle = "white";
+    ctx.fill();
   });
+  requestAnimationFrame(animateStars);
+}
+animateStars();
+
+/* ===== MOUSE GLOW ===== */
+const glow = document.getElementById("glow");
+window.addEventListener("mousemove", e => {
+  glow.style.transform = `translate(${e.clientX - 150}px, ${e.clientY - 150}px)`;
+});
+
+/* ===== REVEAL ===== */
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => e.isIntersecting && e.target.classList.add("show"));
 }, { threshold: 0.15 });
 
 document.querySelectorAll(".reveal").forEach(el => observer.observe(el));
